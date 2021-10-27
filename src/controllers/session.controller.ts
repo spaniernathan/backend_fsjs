@@ -1,4 +1,3 @@
-import config from 'config';
 import { get } from 'lodash';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -26,8 +25,6 @@ export const createUserSessionHandler = async (req: Request, res: Response) => {
   }
   try {
     session = await createSession(get(user, 'dataValues').uuid, req.get('user-agent') || '');
-    logger.info('session');
-    logger.info(session);
   } catch (error: any) {
     logger.error(error);
     return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -46,20 +43,26 @@ export const invalidateUserSessionHandler = async (
   req: Request,
   res: Response,
 ) => {
-  const sessionId = get(req, 'user.session');
-  await invalidateSession(sessionId);
+  try {
+    await invalidateSession(get(req, 'user.session'));
+  } catch (error: any) {
+    logger.error(error);
+    return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  }
   return res.sendStatus(StatusCodes.OK);
 };
 
 export async function getUserSessionsHandler(req: Request, res: Response) {
-  const userId = get(req, 'user.uuid');
-
-  const sessions = await Session.findOne({
-    where: {
-      user: userId,
-      valid: true,
-    },
-  });
-
-  return res.send(sessions);
+  try {
+    const sessions = await Session.findAll({
+      where: {
+        user: get(req, 'user.uuid'),
+        valid: true,
+      },
+    });
+    return res.send(sessions);
+  } catch (error: any) {
+    logger.error(error);
+    return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  }
 }

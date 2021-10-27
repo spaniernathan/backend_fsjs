@@ -17,8 +17,9 @@ Message.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    value: { type: DataTypes.STRING },
-    roomUuid: { type: DataTypes.UUID },
+    roomUuid: { type: DataTypes.UUID, allowNull: false },
+    userUuid: { type: DataTypes.UUID, allowNull: false },
+    value: { type: DataTypes.STRING, allowNull: false },
   },
   {
     tableName: 'messages',

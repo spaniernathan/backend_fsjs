@@ -6,11 +6,9 @@ import Message from './message.model';
 class Rooms extends Model {
     public uuid!: string;
 
-    public type!: 'PRIVATE' | 'ROOM';
-
     public messages!: Array<Message>;
 
-    public ownerUuid!: string;
+    public userUuid!: string;
 }
 
 Rooms.init(
@@ -20,14 +18,8 @@ Rooms.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    type: {
-      type: DataTypes.STRING(7),
-      allowNull: false,
-      validate: {
-        isIn: [['PRIVATE', 'ROOM']],
-      },
-    },
-    ownerUuid: { type: DataTypes.UUID, allowNull: false },
+    userUuid: { type: DataTypes.UUID, allowNull: false },
+    roomName: { type: DataTypes.STRING, allowNull: false },
   },
   {
     tableName: 'rooms',

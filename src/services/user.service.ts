@@ -28,13 +28,17 @@ export const validatePassword = async ({
   email: string;
   password: string;
 }) => {
-  const user = await User.findOne({ where: { email } });
-  if (!user) {
-    return null;
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return null;
+    }
+    const isValid = await user.comparePassword(password);
+    if (!isValid) {
+      return null;
+    }
+    return omit(user, 'password');
+  } catch (error: any) {
+    throw new Error(error);
   }
-  const isValid = await user.comparePassword(password);
-  if (!isValid) {
-    return null;
-  }
-  return omit(user, 'password');
 };
