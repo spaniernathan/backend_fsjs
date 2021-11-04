@@ -2,7 +2,6 @@ import { Model, DataTypes } from 'sequelize';
 import config from '../../config';
 import sequelize from '../connect';
 
-console.log(config);
 class Message extends Model {
     public uuid!: string;
 
