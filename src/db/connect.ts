@@ -1,8 +1,7 @@
 import config from 'config';
 import { Sequelize } from 'sequelize';
-import logger from '../logger';
 
-const sequelize = new Sequelize({
+const sequelize = new Sequelize(config.get('env') === 'production' ? config.get('databaseURL') : {
   dialect: 'postgres',
   database: config.get('databaseDB'),
   username: config.get('databaseUsername'),
@@ -10,11 +9,5 @@ const sequelize = new Sequelize({
   host: config.get('databaseHost'),
   port: config.get('databasePort'),
 });
-
-/* try {
-  sequelize.createSchema(config.get('databaseSchema'), config.get('env') === 'developement' ? { logging: true, benchmark: true } : {});
-} catch (e) {
-  logger.info('Error: ', e);
-} */
 
 export default sequelize;

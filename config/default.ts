@@ -4,6 +4,7 @@ export default {
   env: env.ENV,
   port: env.API_PORT,
   host: env.API_HOST,
+  databaseURL: env.DATABASE_URL,
   databaseDB: env.DATABASE_DATABASE,
   databaseUsername: env.DATABASE_USERNAME,
   databasePassword: env.DATABASE_PASSWORD,

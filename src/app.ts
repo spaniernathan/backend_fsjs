@@ -32,7 +32,7 @@ createAssociations();
 
 sockets(webSocketServer);
 
-httpServer.listen(port, host, () => {
+httpServer.listen(port, () => {
   logger.info(`Server running on http://${host}:${port}`);
   routes(app);
 });
