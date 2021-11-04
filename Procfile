@@ -1,1 +1,1 @@
-web:node dist/app.js
+web:npx tsc && node dist/app.js

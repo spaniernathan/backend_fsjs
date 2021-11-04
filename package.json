@@ -15,7 +15,7 @@
     "db:migrate:undo": "env-cmd -f .env.local npx sequelize db:migrate:undo",
     "dev": "env-cmd -f .env.local npx nodemon --unhandled-rejections=strict --trace-deprecation --config nodemon.json src/app.ts",
     "postinstall": "tsc",
-    "start": "node dist/app.js",
+    "start": "npx tsc && node dist/app.js",
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix"
   },
