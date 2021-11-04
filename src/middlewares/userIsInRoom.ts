@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { Room } from 'db/models';
 import { StatusCodes } from 'http-status-codes';
+import { Room } from '../db/models';
 
 const userIsInRoom = async (
   req: Request,

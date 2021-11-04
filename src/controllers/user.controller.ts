@@ -19,7 +19,7 @@ export const postUserHandler = async (req: Request, res: Response) => {
 
 export const getUserHandler = async (req: Request, res: Response) => {
   try {
-    const user = await findUserByUuid(req.params.uuid);
+    const user = await findUserByUuid(get(req, 'user.uuid'));
     return res.status(StatusCodes.CREATED).json(
       omit(get(user, 'dataValues'), 'password'),
     );

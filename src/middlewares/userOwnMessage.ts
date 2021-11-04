@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { Request, Response, NextFunction } from 'express';
-import { Message, Room } from 'db/models';
 import { StatusCodes } from 'http-status-codes';
+import { Message, Room } from '../db/models';
 
 const userOwnMessage = async (
   req: Request,

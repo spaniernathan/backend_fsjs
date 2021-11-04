@@ -1,4 +1,5 @@
 import { Express, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import {
   validate, userOwnRoom, userOwnMessage, userIsInRoom,
 } from './middlewares';
@@ -6,16 +7,16 @@ import {
 import {
   getUserSchema, postSessionSchema, deleteSessionSchema, postUserSchema,
   postRoomSchema, deleteRoomSchema, joinRoomSchema, getRoomMessageSchema,
-  postRoomMessageSchema, deleteRoomMessageSchema,
+  deleteRoomMessageSchema,
 } from './schemas';
 import {
   createUserSessionHandler, invalidateUserSessionHandler, getUserHandler, postUserHandler,
   getUserSessionsHandler, createRoomHandler, getRoomsHandler, joinRoomHandler,
-  deleteRoomHandler, createRoomMessageHandler, getRoomMessagesHandler, deleteRoomMessageHandler,
+  deleteRoomHandler, getRoomMessagesHandler, deleteRoomMessageHandler,
 } from './controllers';
 
 export default (app: Express) => {
-  app.get('/api/healthcheck', (req: Request, res: Response) => res.sendStatus(200));
+  app.get('/api/healthcheck', (req: Request, res: Response) => res.sendStatus(StatusCodes.OK));
 
   // Session
   app.get('/api/sessions', [], getUserSessionsHandler);
@@ -23,7 +24,7 @@ export default (app: Express) => {
   app.delete('/api/sessions/:sessionId', [validate(deleteSessionSchema)], invalidateUserSessionHandler);
 
   // Users
-  app.get('/api/users/:userId', [validate(getUserSchema)], getUserHandler);
+  app.get('/api/users', [validate(getUserSchema)], getUserHandler);
   app.post('/api/users', [validate(postUserSchema)], postUserHandler);
 
   // Rooms
@@ -33,9 +34,8 @@ export default (app: Express) => {
   app.delete('/api/rooms/:roomId', [validate(deleteRoomSchema), userOwnRoom], deleteRoomHandler);
 
   // Messages
-  app.get('/api/rooms/:roomId/messages', [validate(getRoomMessageSchema), userIsInRoom], getRoomMessagesHandler);
-  app.post('/api/rooms/:roomId/messages', [validate(postRoomMessageSchema), userIsInRoom], createRoomMessageHandler);
-  app.delete('/api/rooms/:roomId/messages/:messageId', [validate(deleteRoomMessageSchema), userOwnMessage], deleteRoomMessageHandler);
+  app.get('/api/rooms/:roomId/messages', [validate(getRoomMessageSchema), userIsInRoom], getRoomMessagesHandler); // BONUS
+  app.delete('/api/rooms/:roomId/messages/:messageId', [validate(deleteRoomMessageSchema), userOwnMessage], deleteRoomMessageHandler); // BONUS
 
   app.all('/*', (req: Request, res: Response) => res.sendStatus(404));
 };

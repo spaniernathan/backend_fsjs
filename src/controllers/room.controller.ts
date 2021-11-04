@@ -21,7 +21,7 @@ export const createRoomHandler = async (req: Request, res: Response) => {
 
 export const getRoomsHandler = async (req: Request, res: Response) => {
   try {
-    const room = await findRoomsByUserUuid(req.params.uuid);
+    const room = await findRoomsByUserUuid(get(req, 'user.uuid'));
     return res.status(StatusCodes.OK).json(get(room, 'dataValues'));
   } catch (error: any) {
     logger.error(error);
@@ -32,6 +32,7 @@ export const getRoomsHandler = async (req: Request, res: Response) => {
 export const joinRoomHandler = async (req: Request, res: Response) => {
   try {
     // TODO: req.params.roomId
+    // add user to room => connect its socket to the room socket
     return res.status(StatusCodes.OK).json({});
   } catch (error: any) {
     logger.error(error);
