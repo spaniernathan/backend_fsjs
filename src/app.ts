@@ -1,16 +1,16 @@
 import express from 'express';
-import config from 'config';
 import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
+import config from './config';
 import createAssociations from './db/associations';
 import logger from './logger';
 import routes from './routes';
 import { deserializeUser } from './middlewares';
 import sockets from './sockets';
 
-const port = config.get('port') as number;
-const host = config.get('host') as string;
+const port = config.port as number;
+const host = config.host as string;
 
 const app = express();
 

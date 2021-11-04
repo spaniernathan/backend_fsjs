@@ -1,5 +1,5 @@
-import config from 'config';
 import { Model, DataTypes } from 'sequelize';
+import config from '../../config';
 import sequelize from '../connect';
 import Message from './message.model';
 
@@ -23,7 +23,7 @@ Rooms.init(
   },
   {
     tableName: 'rooms',
-    schema: config.get('databaseSchema'),
+    schema: config.databaseSchema,
     sequelize,
   },
 );

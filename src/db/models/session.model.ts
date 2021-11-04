@@ -1,5 +1,5 @@
-import config from 'config';
 import { Model, DataTypes } from 'sequelize';
+import config from '../../config';
 import sequelize from '../connect';
 
 class Session extends Model {
@@ -25,7 +25,7 @@ Session.init(
   },
   {
     tableName: 'sessions',
-    schema: config.get('databaseSchema'),
+    schema: config.databaseSchema,
     sequelize,
   },
 );

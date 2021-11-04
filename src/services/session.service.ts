@@ -1,6 +1,6 @@
-import config from 'config';
 import { randomUUID } from 'crypto';
 import { get } from 'lodash';
+import config from '../config';
 import { User, Session } from '../db/models';
 import { sign, decode } from '../utils/jwt.utils';
 
@@ -16,10 +16,10 @@ export const createAccessToken = async ({
   session: Session
 }) => sign(
   { user: get(user, 'dataValues'), session: get(session, 'dataValues') },
-  { expiresIn: config.get('accessTokenTtl') },
+  { expiresIn: config.accessTokenTtl },
 );
 
-export const createRefreshToken = async (session: Session) => sign({ session: get(session, 'dataValues') }, { expiresIn: config.get('refreshTokenTtl') });
+export const createRefreshToken = async (session: Session) => sign({ session: get(session, 'dataValues') }, { expiresIn: config.refreshTokenTtl });
 
 export const reIssueAccessToken = async ({
   refreshToken,

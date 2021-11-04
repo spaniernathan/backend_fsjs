@@ -1,14 +1,21 @@
+import * as dotenv from 'dotenv';
 import { each } from 'lodash';
 
-const envs: {
-  [key: string]: string | undefined
-} = {};
+let envs: any = {};
 
-// eslint-disable-next-line
-each(process.env, (value, key) => envs[key] = value);
+const result = dotenv.config();
+
+if (!('error' in result)) {
+  envs = result.parsed;
+} else {
+  // eslint-disable-next-line
+  each(process.env, (value, key) => envs[key] = value);
+}
+
+console.log(envs);
 
 export default {
-  env: envs.ENV,
+  nodeEnv: envs.NODE_ENV,
   port: envs.API_PORT,
   host: envs.API_HOST,
   databaseURL: envs.DATABASE_URL,

@@ -1,7 +1,8 @@
-import config from 'config';
 import { Model, DataTypes } from 'sequelize';
+import config from '../../config';
 import sequelize from '../connect';
 
+console.log(config);
 class Message extends Model {
     public uuid!: string;
 
@@ -23,7 +24,7 @@ Message.init(
   },
   {
     tableName: 'messages',
-    schema: config.get('databaseSchema'),
+    schema: config.databaseSchema,
     sequelize,
   },
 );

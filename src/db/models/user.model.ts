@@ -1,6 +1,6 @@
-import config from 'config';
 import { Model, DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
+import config from '../../config';
 import sequelize from '../connect';
 
 class User extends Model {
@@ -47,7 +47,7 @@ User.init(
   },
   {
     tableName: 'users',
-    schema: config.get('databaseSchema'),
+    schema: config.databaseSchema,
     sequelize,
   },
 );

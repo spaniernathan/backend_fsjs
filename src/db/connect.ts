@@ -1,13 +1,13 @@
-import config from 'config';
 import { Sequelize } from 'sequelize';
+import config from '../config';
 
-const sequelize = new Sequelize(config.get('env') === 'production' ? config.get('databaseURL') : {
+const sequelize = new Sequelize(config.nodeEnv === 'production' ? config.databaseURL : {
   dialect: 'postgres',
-  database: config.get('databaseDB'),
-  username: config.get('databaseUsername'),
-  password: config.get('databasePassword'),
-  host: config.get('databaseHost'),
-  port: config.get('databasePort'),
+  database: config.databaseDB,
+  username: config.databaseUsername,
+  password: config.databasePassword,
+  host: config.databaseHost,
+  port: config.databasePort,
 });
 
 export default sequelize;

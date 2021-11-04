@@ -14,14 +14,13 @@
     "db:migrate": "env-cmd -f .env.local npx sequelize db:migrate",
     "db:migrate:undo": "env-cmd -f .env.local npx sequelize db:migrate:undo",
     "dev": "env-cmd -f .env.local npx nodemon --unhandled-rejections=strict --trace-deprecation --config nodemon.json src/app.ts",
-    "postinstall": "tsc",
+    "build": "tsc",
     "start": "node dist/app.js",
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "config": "^3.3.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
