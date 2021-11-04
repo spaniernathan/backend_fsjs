@@ -9,7 +9,6 @@ export {
   deleteRoomHandler,
 } from './room.controller';
 export {
-  createRoomMessageHandler,
   getRoomMessagesHandler,
   deleteRoomMessageHandler,
 } from './message.controller';

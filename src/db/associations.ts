@@ -1,5 +1,5 @@
 import {
-  Session, Message, User, Room,
+  Session, Message, User, Room, UserRoom,
 } from './models';
 
 const createAssociations = () => {
@@ -15,12 +15,17 @@ const createAssociations = () => {
   });
 
   // User n:m Room
-  User.hasMany(Room, {
-    foreignKey: 'userUuid',
+  User.belongsToMany(Room, {
     as: 'rooms',
+    through: UserRoom,
+    foreignKey: 'user_uuid',
     onDelete: 'CASCADE',
   });
-  Room.belongsToMany(User, { through: 'RoomUser' });
+  Room.belongsToMany(User, {
+    as: 'users',
+    through: UserRoom,
+    foreignKey: 'user_uuid',
+  });
 
   // Room 1:m Message
   Room.hasMany(Message, {
