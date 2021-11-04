@@ -1,1 +1,1 @@
-web:npx tsc && node dist/app.js
+web:yarn start
