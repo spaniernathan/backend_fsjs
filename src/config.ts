@@ -12,12 +12,10 @@ if (!('error' in result)) {
   each(process.env, (value, key) => envs[key] = value);
 }
 
-console.log(envs);
-
 export default {
   nodeEnv: envs.NODE_ENV,
-  port: envs.API_PORT,
-  host: envs.API_HOST,
+  port: envs.PORT,
+  host: envs.HOST,
   databaseURL: envs.DATABASE_URL,
   databaseDB: envs.DATABASE_DATABASE,
   databaseUsername: envs.DATABASE_USERNAME,
