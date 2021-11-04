@@ -1,17 +1,24 @@
-import { env } from 'process';
+import { each } from 'lodash';
+
+const envs: {
+  [key: string]: string | undefined
+} = {};
+
+// eslint-disable-next-line
+each(process.env, (value, key) => envs[key] = value);
 
 export default {
-  env: env.ENV,
-  port: env.API_PORT,
-  host: env.API_HOST,
-  databaseURL: env.DATABASE_URL,
-  databaseDB: env.DATABASE_DATABASE,
-  databaseUsername: env.DATABASE_USERNAME,
-  databasePassword: env.DATABASE_PASSWORD,
-  databaseHost: env.DATABASE_HOST,
-  databasePort: env.DATABASE_PORT,
-  databaseSchema: env.DATABASE_SCHEMA,
-  jwtPrivateKey: env.JWT_PRIVATE_KET,
-  accessTokenTtl: env.ACCESS_TOKEN_TTL,
-  refreshTokenTtl: env.REFRESH_TOKEN_TTL,
+  env: envs.ENV,
+  port: envs.API_PORT,
+  host: envs.API_HOST,
+  databaseURL: envs.DATABASE_URL,
+  databaseDB: envs.DATABASE_DATABASE,
+  databaseUsername: envs.DATABASE_USERNAME,
+  databasePassword: envs.DATABASE_PASSWORD,
+  databaseHost: envs.DATABASE_HOST,
+  databasePort: envs.DATABASE_PORT,
+  databaseSchema: envs.DATABASE_SCHEMA,
+  jwtPrivateKey: envs.JWT_PRIVATE_KET,
+  accessTokenTtl: envs.ACCESS_TOKEN_TTL,
+  refreshTokenTtl: envs.REFRESH_TOKEN_TTL,
 };

@@ -5,7 +5,9 @@
   "repository": "git@github.com:spaniernathan/backend_fsjs.git",
   "author": "SPANIER Nathan <spaniernathan67@gmail.com>",
   "license": "MIT",
-  "engines": { "node": "14.17.5" },
+  "engines": {
+    "node": "14.17.5"
+  },
   "scripts": {
     "db:start": "docker-compose -f scripts/docker-compose.yml up -d",
     "db:stop": "docker-compose -f scripts/docker-compose.yml stop",
@@ -13,7 +15,7 @@
     "db:migrate:undo": "env-cmd -f .env.local npx sequelize db:migrate:undo",
     "dev": "env-cmd -f .env.local npx nodemon --unhandled-rejections=strict --trace-deprecation --config nodemon.json src/app.ts",
     "postinstall": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/app.js",
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix"
   },
@@ -21,6 +23,7 @@
     "bcrypt": "^5.0.1",
     "config": "^3.3.6",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-joi": "^0.3.1",
     "http-status-codes": "^2.1.4",
