@@ -37,5 +37,5 @@ export default (app: Express) => {
   app.get('/api/rooms/:roomId/messages', [validate(getRoomMessageSchema), userIsInRoom], getRoomMessagesHandler); // BONUS
   app.delete('/api/rooms/:roomId/messages/:messageId', [validate(deleteRoomMessageSchema), userOwnMessage], deleteRoomMessageHandler); // BONUS
 
-  app.all('/*', (req: Request, res: Response) => res.sendStatus(404));
+  app.all('/*', (req: Request, res: Response) => res.sendStatus(StatusCodes.NOT_FOUND));
 };
