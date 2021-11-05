@@ -1,5 +1,19 @@
+import * as dotenv from 'dotenv';
+import { each } from 'lodash';
+
+let envs = {};
+
+const result = dotenv.config();
+
+if (!('error' in result)) {
+  envs = result.parsed;
+} else {
+  // eslint-disable-next-line
+  each(process.env, (value, key) => envs[key] = value);
+}
+
 const baseConfig = {
-  schema: process.env.DATABASE_SCHEMA,
+  schema: envs.DATABASE_SCHEMA,
   // eslint-disable-next-line no-console
   logging: console.log,
   maxConcurrentQueries: 10,
@@ -14,7 +28,7 @@ const baseConfig = {
 module.exports = {
   production: {
     ...baseConfig,
-    host: process.env.databaseURL,
+    use_env_variable: 'DATABASE_URL',
     schema: 'ht_prod',
     logging: false,
     maxConcurrentQueries: 100,
@@ -26,10 +40,10 @@ module.exports = {
   },
   development: {
     ...baseConfig,
-    host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_DB,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
+    host: envs.DATABASE_HOST,
+    port: envs.DATABASE_PORT,
+    database: envs.DATABASE_DB,
+    username: envs.DATABASE_USERNAME,
+    password: envs.DATABASE_PASSWORD,
   },
 };
