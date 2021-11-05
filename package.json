@@ -14,7 +14,7 @@
     "db:migrate": "env-cmd -f .env.local npx sequelize db:migrate",
     "db:migrate:undo": "env-cmd -f .env.local npx sequelize db:migrate:undo",
     "dev": "env-cmd -f .env.local npx nodemon --unhandled-rejections=strict --trace-deprecation --config nodemon.json src/app.ts",
-    "build": "sequelize db:migrate --env production",
+    "build": "sequelize db:migrate --env production && npm i typescript -g && tsc",
     "start": "node dist/app.js",
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix"
