@@ -22,6 +22,7 @@ module.exports = {
     dialectOptions: {
       connectTimeout: 3000,
       ssl: true,
+      rejectUnauthorized: false,
     },
   },
   development: {
