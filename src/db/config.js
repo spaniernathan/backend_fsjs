@@ -21,6 +21,9 @@ module.exports = {
     pool: { maxConnections: 10, maxIdleTime: 30 },
     dialectOptions: {
       connectTimeout: 3000,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
   },
   development: {
