@@ -23,8 +23,8 @@ app.use(deserializeUser);
 const httpServer = http.createServer(app);
 const webSocketServer = new Server(httpServer, {
   cors: {
-    origin: '*',
-    allowedHeaders: '*',
+    allowedHeaders: ['*'],
+    exposedHeaders: ['Access-Control-Allow-Origin'],
   },
 });
 
