@@ -10,6 +10,10 @@ class Session extends Model {
     public valid!: boolean;
 
     public userAgent!: string;
+
+    public createdAt!: Date;
+
+    public updatedAt!: Date;
 }
 
 Session.init(
@@ -22,6 +26,14 @@ Session.init(
     userUuid: { type: DataTypes.UUID },
     valid: { type: DataTypes.BOOLEAN },
     userAgent: { type: DataTypes.STRING },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   },
   {
     tableName: 'sessions',

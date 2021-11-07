@@ -12,6 +12,10 @@ class User extends Model {
 
     public password!: string;
 
+    public createdAt!: Date;
+
+    public updatedAt!: Date;
+
     comparePassword = (
       p: string,
     ): Promise<Boolean> => bcrypt.compare(p, this.password).catch(() => false)

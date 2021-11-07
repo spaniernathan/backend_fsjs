@@ -67,7 +67,7 @@ export const getUserSessionsHandler = async (req: Request, res: Response) => {
   try {
     const sessions = await Session.findAll({
       where: {
-        user: get(req, 'user.uuid'),
+        user: get(req, 'user.user.uuid'),
         valid: true,
       },
     });

@@ -17,7 +17,7 @@ const userOwnMessage = async (
       as: 'messages',
       where: {
         uuid: req.params.messageUuid,
-        ownerUuid: get(req, 'user.uuid'),
+        ownerUuid: get(req, 'user.user.uuid'),
       },
     },
   });

@@ -1,25 +1,14 @@
-import expressJoi from 'express-joi';
+import * as Joi from 'joi';
 
-const getRoomMessageSchema = expressJoi.Joi.object({
-  params: expressJoi.Joi.object({
-    roomId: expressJoi.Joi.string().required(),
-  }),
+const getRoomMessageSchemaParams = Joi.object({
+  roomId: Joi.string().required(),
 });
 
-const postRoomMessageSchema = expressJoi.Joi.object({
-  params: expressJoi.Joi.object({
-    roomId: expressJoi.Joi.string().required(),
-  }),
-  body: expressJoi.Joi.object({
-    value: expressJoi.Joi.string().required(),
-  }),
+const deleteRoomMessageSchemaParams = Joi.object({
+  roomId: Joi.string().required(),
+  messageId: Joi.string().required(),
 });
 
-const deleteRoomMessageSchema = expressJoi.Joi.object({
-  params: expressJoi.Joi.object({
-    roomId: expressJoi.Joi.string().required(),
-    messageId: expressJoi.Joi.string().required(),
-  }),
-});
-
-export { postRoomMessageSchema, deleteRoomMessageSchema, getRoomMessageSchema };
+export {
+  getRoomMessageSchemaParams, deleteRoomMessageSchemaParams,
+};

@@ -6,7 +6,7 @@ const createAssociations = () => {
   // User 1:m Session
   User.hasMany(Session, {
     foreignKey: 'userUuid',
-    as: 'session',
+    as: 'sessions',
     onDelete: 'CASCADE',
   });
   Session.belongsTo(User, {
@@ -15,22 +15,27 @@ const createAssociations = () => {
   });
 
   // User n:m Room
+  User.hasMany(Room, {
+    as: 'owner',
+    foreignKey: 'ownerUuid',
+    onDelete: 'CASCADE',
+  });
   User.belongsToMany(Room, {
     as: 'rooms',
     through: UserRoom,
-    foreignKey: 'user_uuid',
+    foreignKey: 'userUuid',
     onDelete: 'CASCADE',
   });
   Room.belongsToMany(User, {
     as: 'users',
     through: UserRoom,
-    foreignKey: 'user_uuid',
+    foreignKey: 'roomUuid',
   });
 
   // Room 1:m Message
   Room.hasMany(Message, {
     foreignKey: 'roomUuid',
-    as: 'message',
+    as: 'messages',
     onDelete: 'CASCADE',
   });
   Message.belongsTo(Room, {
@@ -40,12 +45,12 @@ const createAssociations = () => {
 
   // User 1:m Messages
   User.hasMany(Message, {
-    foreignKey: 'userUuid',
-    as: 'message',
+    foreignKey: 'ownerUuid',
+    as: 'messages',
     onDelete: 'CASCADE',
   });
   Message.belongsTo(User, {
-    foreignKey: 'userUuid',
+    foreignKey: 'ownerUuid',
     as: 'user',
   });
 };

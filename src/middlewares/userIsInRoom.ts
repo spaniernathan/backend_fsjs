@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Room } from '../db/models';
+import { get } from 'lodash';
+import { Room, User } from '../db/models';
 
+// Bonus
 const userIsInRoom = async (
   req: Request,
   res: Response,
@@ -9,8 +11,14 @@ const userIsInRoom = async (
 ) => {
   const room = Room.findOne({
     where: { uuid: req.params.roomId },
+    include: {
+      model: User,
+      as: 'users',
+      where: {
+        uuid: get(req, 'user.user.uuid'),
+      },
+    },
   });
-  // TODO: Check if user is in the room
   if (!room) return res.sendStatus(StatusCodes.UNAUTHORIZED);
   return next();
 };

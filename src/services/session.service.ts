@@ -27,9 +27,9 @@ export const reIssueAccessToken = async ({
   refreshToken: string;
 }) => {
   const { decoded } = decode(refreshToken);
-  if (!decoded || !get(decoded, 'uuid')) return false;
+  if (!decoded || !get(decoded, 'session.uuid')) return false;
 
-  const session = await Session.findOne({ where: { uuid: get(decoded, 'uuid') } });
+  const session = await Session.findOne({ where: { uuid: get(decoded, 'session.uuid') } });
   if (!session || !session?.valid) return false;
 
   const user = await User.findOne({ where: { uuid: session.userUuid } });
@@ -39,7 +39,7 @@ export const reIssueAccessToken = async ({
   return accessToken;
 };
 
-export const invalidateSession = async (sessionId: string) => {
-  const session = await Session.update({ valid: false }, { where: { uuid: sessionId } });
-  return session;
-};
+export const invalidateSession = async ({ uuid }: { uuid: string }) => Session.update(
+  { valid: false },
+  { where: { uuid } },
+);

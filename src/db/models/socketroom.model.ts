@@ -2,31 +2,35 @@ import { Model, DataTypes } from 'sequelize';
 import config from '../../config';
 import sequelize from '../connect';
 
-class UserRoom extends Model {
-  public roomUuid!: string;
+class SocketRoom extends Model {
+  public uuid!: string;
 
-  public userUuid!: string;
+  public socketUuid!: string;
+
+  public roomUuid!: string;
 
   public createdAt!: Date;
 
   public updatedAt!: Date;
 }
 
-UserRoom.init(
+SocketRoom.init(
   {
     uuid: {
       type: DataTypes.UUID,
       autoIncrement: true,
       primaryKey: true,
     },
+    socketUuid: { type: DataTypes.STRING, allowNull: false },
+    roomUuid: { type: DataTypes.UUID, allowNull: false },
     createdAt: { type: DataTypes.DATE, allowNull: false },
     updatedAt: { type: DataTypes.DATE, allowNull: false },
   },
   {
-    tableName: 'user_room',
+    tableName: 'socket_room',
     schema: config.databaseSchema,
     sequelize,
   },
 );
 
-export default UserRoom;
+export default SocketRoom;

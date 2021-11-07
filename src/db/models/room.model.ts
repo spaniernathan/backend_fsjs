@@ -8,7 +8,11 @@ class Rooms extends Model {
 
     public messages!: Array<Message>;
 
-    public userUuid!: string;
+    public ownerUuid!: string;
+
+    public createdAt!: Date;
+
+    public updatedAt!: Date;
 }
 
 Rooms.init(
@@ -18,8 +22,10 @@ Rooms.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    userUuid: { type: DataTypes.UUID, allowNull: false },
+    ownerUuid: { type: DataTypes.UUID, allowNull: false },
     roomName: { type: DataTypes.STRING, allowNull: false },
+    createdAt: { type: DataTypes.DATE, allowNull: false },
+    updatedAt: { type: DataTypes.DATE, allowNull: false },
   },
   {
     tableName: 'rooms',

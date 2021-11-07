@@ -11,7 +11,7 @@ const userOwnRoom = async (
   const room = await Room.findOne({
     where: {
       uuid: req.params.roomId,
-      ownerUuid: get(req, 'user.uuid'),
+      ownerUuid: get(req, 'user.user.uuid'),
     },
   });
   if (!room) return res.sendStatus(StatusCodes.UNAUTHORIZED);

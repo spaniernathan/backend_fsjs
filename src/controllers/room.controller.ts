@@ -9,13 +9,14 @@ import {
   deleteRoom,
   createRoom,
 } from '../services/room.service';
+import { UserRoom } from '../db/models';
 
 export const createRoomHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
   try {
-    const room = await createRoom({ ...req.body, uuid: randomUUID() });
+    const room = await createRoom({ ...req.body, ownerUuid: get(req, 'user.user.uuid'), uuid: randomUUID() });
     await transaction.commit();
-    return res.status(StatusCodes.CREATED).json(get(room, 'dataValues'));
+    return res.status(StatusCodes.CREATED).json(room);
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();
@@ -26,9 +27,9 @@ export const createRoomHandler = async (req: Request, res: Response) => {
 export const getRoomsHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
   try {
-    const room = await findRoomsByUserUuid(get(req, 'user.uuid'));
+    const rooms = await findRoomsByUserUuid(get(req, 'user.user.uuid'));
     await transaction.commit();
-    return res.status(StatusCodes.OK).json(get(room, 'dataValues'));
+    return res.status(StatusCodes.OK).json(rooms);
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();
@@ -39,10 +40,9 @@ export const getRoomsHandler = async (req: Request, res: Response) => {
 export const joinRoomHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
   try {
-    // TODO: req.params.roomId
-    // add user to room => connect its socket to the room socket
+    await UserRoom.create({ uuid: randomUUID(), userUuid: get(req, 'user.user.uuid'), roomUuid: req.params.roomId });
     await transaction.commit();
-    return res.status(StatusCodes.OK).json({});
+    return res.sendStatus(StatusCodes.OK);
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();
@@ -55,7 +55,7 @@ export const deleteRoomHandler = async (req: Request, res: Response) => {
   try {
     await deleteRoom(req.params.roomId);
     await transaction.commit();
-    return res.status(StatusCodes.OK);
+    return res.sendStatus(StatusCodes.OK);
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();

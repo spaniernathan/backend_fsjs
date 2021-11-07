@@ -1,17 +1,13 @@
-import expressJoi from 'express-joi';
+import * as Joi from 'joi';
 
-const getUserSchema = {
-  params: expressJoi.Joi.object({
-    uuid: expressJoi.Joi.string().required(),
-  }),
-};
+const getUserSchemaParams = Joi.object({
+  uuid: Joi.string().required(),
+});
 
-const postUserSchema = {
-  body: expressJoi.Joi.object({
-    displayName: expressJoi.Joi.string().required(),
-    email: expressJoi.Joi.string().email().required(),
-    password: expressJoi.Joi.string().min(3).required(),
-  }),
-};
+const postUserSchemaBody = Joi.object({
+  displayName: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(3).required(),
+});
 
-export { getUserSchema, postUserSchema };
+export { getUserSchemaParams, postUserSchemaBody };

@@ -1,11 +1,11 @@
 import deserializeUser from './deserializeUser';
-import { validate } from './requestValidator';
-import userOwnMessage from './userOwnMessage';
 import userOwnRoom from './userOwnRoom';
 import userIsInRoom from './userIsInRoom';
+import userAuthenticated from './userAuthenticated';
 
 export {
-  deserializeUser, validate,
-  userOwnRoom, userOwnMessage,
+  deserializeUser,
+  userOwnRoom,
   userIsInRoom,
+  userAuthenticated,
 };

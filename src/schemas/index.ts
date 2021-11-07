@@ -1,18 +1,17 @@
 export {
-  getUserSchema,
-  postUserSchema,
+  getUserSchemaParams,
+  postUserSchemaBody,
 } from './user.schema';
 export {
-  postSessionSchema,
-  deleteSessionSchema,
+  postSessionSchemaBody,
+  deleteSessionSchemaParams,
 } from './session.schema';
 export {
-  postRoomSchema,
-  deleteRoomSchema,
-  joinRoomSchema,
+  postRoomSchemaBody,
+  deleteRoomSchemaParams,
+  joinRoomSchemaParams,
 } from './room.schema';
 export {
-  postRoomMessageSchema,
-  deleteRoomMessageSchema,
-  getRoomMessageSchema,
+  deleteRoomMessageSchemaParams,
+  getRoomMessageSchemaParams,
 } from './messages.schema';

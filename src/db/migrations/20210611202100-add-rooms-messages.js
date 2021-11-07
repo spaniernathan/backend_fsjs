@@ -2,13 +2,12 @@ module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.sequelize.transaction((t) => Promise.all([
 
     queryInterface.createTable({
-      tableName: 'users',
+      tableName: 'rooms',
       schema: queryInterface.sequelize.options.schema,
     }, {
       uuid: { type: Sequelize.UUID, primaryKey: true },
-      displayName: { type: new Sequelize.STRING(64), allowNull: false },
-      email: { type: new Sequelize.STRING(128), allowNull: false },
-      password: { type: new Sequelize.STRING(128), allowNull: false },
+      ownerUuid: { type: Sequelize.UUID, allowNull: false },
+      roomName: { type: Sequelize.STRING, allowNull: false },
       createdAt: { type: Sequelize.DATE, allowNull: false },
       updatedAt: { type: Sequelize.DATE, allowNull: false },
     }, {
@@ -16,13 +15,14 @@ module.exports = {
     }),
 
     queryInterface.createTable({
-      tableName: 'sessions',
+      tableName: 'messages',
       schema: queryInterface.sequelize.options.schema,
     }, {
       uuid: { type: Sequelize.UUID, primaryKey: true },
-      userUuid: { type: Sequelize.UUID },
-      valid: { type: Sequelize.BOOLEAN },
-      userAgent: { type: Sequelize.STRING },
+      value: { type: Sequelize.STRING, allowNull: false },
+      senderName: { type: Sequelize.STRING, allowNull: false },
+      ownerUuid: { type: Sequelize.UUID, allowNull: false },
+      roomUuid: { type: Sequelize.UUID, allowNull: false },
       createdAt: { type: Sequelize.DATE, allowNull: false },
       updatedAt: { type: Sequelize.DATE, allowNull: false },
     }, {
@@ -34,13 +34,13 @@ module.exports = {
   down: (queryInterface) => queryInterface.sequelize.transaction((t) => Promise.all([
 
     queryInterface.dropTable({
-      tableName: 'users',
+      tableName: 'rooms',
       schema: queryInterface.sequelize.options.schema,
     }, {
       transaction: t,
     }),
     queryInterface.dropTable({
-      tableName: 'sessions',
+      tableName: 'messages',
       schema: queryInterface.sequelize.options.schema,
     }, {
       transaction: t,

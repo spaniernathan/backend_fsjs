@@ -1,41 +1,59 @@
-import { Express, Request, Response } from 'express';
+import {
+  Express, NextFunction, Request, Response,
+} from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { createValidator } from 'express-joi-validation';
 import {
-  validate, userOwnRoom, userOwnMessage, userIsInRoom,
+  userOwnRoom, userIsInRoom, userAuthenticated,
 } from './middlewares';
-
 import {
-  getUserSchema, postSessionSchema, deleteSessionSchema, postUserSchema,
-  postRoomSchema, deleteRoomSchema, joinRoomSchema, getRoomMessageSchema,
-  deleteRoomMessageSchema,
+  postUserSchemaBody,
+  postSessionSchemaBody,
+  deleteSessionSchemaParams,
+  postRoomSchemaBody,
+  deleteRoomSchemaParams,
+  joinRoomSchemaParams,
+  getRoomMessageSchemaParams,
 } from './schemas';
+
 import {
   createUserSessionHandler, invalidateUserSessionHandler, getUserHandler, postUserHandler,
   getUserSessionsHandler, createRoomHandler, getRoomsHandler, joinRoomHandler,
-  deleteRoomHandler, getRoomMessagesHandler, deleteRoomMessageHandler,
+  deleteRoomHandler, getRoomMessagesHandler,
 } from './controllers';
+
+const validator = createValidator({
+  passError: true,
+});
 
 export default (app: Express) => {
   app.get('/api/healthcheck', (req: Request, res: Response) => res.sendStatus(StatusCodes.OK));
 
   // Session
-  app.get('/api/sessions', [], getUserSessionsHandler);
-  app.post('/api/sessions', [validate(postSessionSchema)], createUserSessionHandler);
-  app.delete('/api/sessions/:sessionId', [validate(deleteSessionSchema)], invalidateUserSessionHandler);
+  app.get('/api/sessions', [userAuthenticated], getUserSessionsHandler);
+  app.post('/api/sessions', [validator.body(postSessionSchemaBody)], createUserSessionHandler);
+  app.delete('/api/sessions/:sessionId', [userAuthenticated, validator.params(deleteSessionSchemaParams)], invalidateUserSessionHandler);
 
   // Users
-  app.get('/api/users', [validate(getUserSchema)], getUserHandler);
-  app.post('/api/users', [validate(postUserSchema)], postUserHandler);
+  app.get('/api/users', [userAuthenticated], getUserHandler);
+  app.post('/api/users', [validator.body(postUserSchemaBody)], postUserHandler);
 
   // Rooms
-  app.get('/api/rooms', [], getRoomsHandler);
-  app.post('/api/rooms', [validate(postRoomSchema)], createRoomHandler);
-  app.post('/api/rooms/:roomId', [validate(joinRoomSchema)], joinRoomHandler);
-  app.delete('/api/rooms/:roomId', [validate(deleteRoomSchema), userOwnRoom], deleteRoomHandler);
+  app.get('/api/rooms', [userAuthenticated], getRoomsHandler);
+  app.post('/api/rooms', [userAuthenticated, validator.body(postRoomSchemaBody)], createRoomHandler);
+  app.post('/api/rooms/:roomId', [userAuthenticated, validator.params(joinRoomSchemaParams)], joinRoomHandler);
+  app.delete('/api/rooms/:roomId', [userAuthenticated, validator.params(deleteRoomSchemaParams), userOwnRoom], deleteRoomHandler);
 
   // Messages
-  app.get('/api/rooms/:roomId/messages', [validate(getRoomMessageSchema), userIsInRoom], getRoomMessagesHandler); // BONUS
-  app.delete('/api/rooms/:roomId/messages/:messageId', [validate(deleteRoomMessageSchema), userOwnMessage], deleteRoomMessageHandler); // BONUS
+  app.get('/api/rooms/:roomId/messages', [userAuthenticated, validator.params(getRoomMessageSchemaParams), userIsInRoom], getRoomMessagesHandler); // BONUS
 
   app.all('/*', (req: Request, res: Response) => res.sendStatus(StatusCodes.NOT_FOUND));
+
+  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    if (err && err.error && err.error.isJoi) {
+      res.sendStatus(400);
+    } else {
+      next(err);
+    }
+  });
 };

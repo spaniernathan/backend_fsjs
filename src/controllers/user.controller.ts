@@ -17,14 +17,14 @@ export const postUserHandler = async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();
-    return res.status(StatusCodes.CONFLICT).json({ message: error.message });
+    return res.sendStatus(StatusCodes.CONFLICT);
   }
 };
 
 export const getUserHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
   try {
-    const user = await findUserByUuid(get(req, 'user.uuid'));
+    const user = await findUserByUuid(get(req, 'user.user.uuid'));
     await transaction.commit();
     return res.status(StatusCodes.CREATED).json(
       omit(get(user, 'dataValues'), 'password'),
