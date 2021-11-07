@@ -1,9 +1,12 @@
-import { get, rest } from 'lodash';
+import { randomUUID } from 'crypto';
 import {
   Room, Message, UserRoom, User,
 } from '../db/models';
 
-export const createRoom = async (input: Room) => Room.create({ ...input });
+export const createRoom = async (input: Room) => {
+  await UserRoom.create({ uuid: randomUUID(), userUuid: input.ownerUuid, roomUuid: input.uuid });
+  return Room.create({ ...input });
+};
 
 export const findRoomsByUserUuid = async (userUuid: string) => {
   const returnValue: any = [];
@@ -20,10 +23,11 @@ export const findRoomsByUserUuid = async (userUuid: string) => {
   });
   rooms.forEach((room) => {
     const {
-      uuid, ownerUuid, createdAt, updatedAt, messages,
+      uuid, roomName, ownerUuid, createdAt, updatedAt, messages,
     } = room;
     returnValue.push({
       uuid,
+      roomName,
       ownerUuid,
       messages,
       createdAt,

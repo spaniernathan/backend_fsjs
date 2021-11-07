@@ -12,6 +12,7 @@ const userIsInRoom = async (
   const room = Room.findOne({
     where: { uuid: req.params.roomId },
     include: {
+      required: true,
       model: User,
       as: 'users',
       where: {

@@ -1,15 +1,11 @@
-import { Message, Room } from '../db/models';
+import { Message } from '../db/models';
 
 export const createRoomMessage = async (input: Message) => Message.create({ ...input });
 
 export const findRoomMessages = async (
   uuid: string,
-) => Room.findOne({
-  where: { uuid },
-  include: {
-    model: Message,
-    as: 'messages',
-  },
+) => Message.findAll({
+  where: { roomUuid: uuid },
 });
 
 export const deleteRoomMessage = async (uuid: string) => {

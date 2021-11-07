@@ -9,7 +9,7 @@ import {
   deleteRoom,
   createRoom,
 } from '../services/room.service';
-import { UserRoom } from '../db/models';
+import { Room, UserRoom } from '../db/models';
 
 export const createRoomHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
@@ -41,8 +41,9 @@ export const joinRoomHandler = async (req: Request, res: Response) => {
   const transaction = await sequelize.transaction();
   try {
     await UserRoom.create({ uuid: randomUUID(), userUuid: get(req, 'user.user.uuid'), roomUuid: req.params.roomId });
+    const room = await Room.findOne({ where: { uuid: req.params.roomId } });
     await transaction.commit();
-    return res.sendStatus(StatusCodes.OK);
+    return res.status(StatusCodes.OK).json(room);
   } catch (error: any) {
     logger.error(error);
     await transaction.rollback();

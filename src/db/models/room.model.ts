@@ -10,6 +10,8 @@ class Rooms extends Model {
 
     public ownerUuid!: string;
 
+    public roomName!: string;
+
     public createdAt!: Date;
 
     public updatedAt!: Date;

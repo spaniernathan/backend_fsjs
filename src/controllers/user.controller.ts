@@ -26,7 +26,7 @@ export const getUserHandler = async (req: Request, res: Response) => {
   try {
     const user = await findUserByUuid(get(req, 'user.user.uuid'));
     await transaction.commit();
-    return res.status(StatusCodes.CREATED).json(
+    return res.status(StatusCodes.OK).json(
       omit(get(user, 'dataValues'), 'password'),
     );
   } catch (error: any) {

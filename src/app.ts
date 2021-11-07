@@ -21,12 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(deserializeUser);
 
 const httpServer = http.createServer(app);
-const webSocketServer = new Server(httpServer);/* , {
+const webSocketServer = new Server(httpServer, {
   cors: {
-    origin: `http://${host}:${port}`,
+    origin: '*',
     methods: ['GET', 'POST'],
   },
-}); */
+});
 
 createAssociations();
 
