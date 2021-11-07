@@ -104,3 +104,5 @@ To start the project locally:
 ```sh
 $ yarn dev
 ```
+
+It is available at https://fsjs-menfou.herokuapp.com/api
