@@ -24,7 +24,7 @@ const httpServer = http.createServer(app);
 const webSocketServer = new Server(httpServer, {
   cors: {
     origin: '*',
-    methods: ['GET', 'POST'],
+    allowedHeaders: '*',
   },
 });
 
